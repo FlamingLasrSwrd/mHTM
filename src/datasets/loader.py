@@ -23,8 +23,8 @@ G{packagetree mHTM}
 __docformat__ = 'epytext'
 
 # Native imports
-import os, pkgutil, cPickle
-from itertools import izip
+import os, pkgutil, pickle
+
 
 # Third-Party imports
 import numpy as np
@@ -101,7 +101,7 @@ class MNISTCV(object):
 			train_size=self.test_size, random_state=self.seed)
 		
 		# Yield each item
-		for tr, te in izip(sss_tr, sss_te):
+		for tr, te in zip(sss_tr, sss_te):
 			yield tr[0], te[0] + len(self.tr_y) # Offset testing indexes
 
 def load_mnist(threshold=255/2):
@@ -118,7 +118,7 @@ def load_mnist(threshold=255/2):
 	# Get the raw data
 	p = os.path.join(pkgutil.get_loader('mHTM.datasets').filename, 'mnist.pkl')
 	with open(p, 'rb') as f:
-		(tr_x, tr_y), (te_x, te_y) = cPickle.load(f)
+		(tr_x, tr_y), (te_x, te_y) = pickle.load(f)
 	
 	# Threshold the data
 	if threshold is not None:
@@ -197,6 +197,6 @@ class SPDataset(object):
 			self.nsamples, axis=0)
 		
 		# Add noise to the dataset
-		for i in xrange(len(self.data)):
+		for i in range(len(self.data)):
 			sel = self.prng.choice(self.nbits, noise, False)
 			self.data[i, sel] = np.bitwise_not(self.data[i, sel])

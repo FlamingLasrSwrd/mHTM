@@ -22,7 +22,7 @@ G{packagetree mHTM}
 __docformat__ = 'epytext'
 
 # Native imports
-import cPickle, os, json, sys, shutil
+import pickle, os, json, sys, shutil
 
 # Third party imports
 import numpy as np
@@ -51,7 +51,7 @@ def full_cv(base_dir):
 	
 	# Get the CV splits
 	with open(os.path.join(base_dir, 'cv.pkl'), 'rb') as f:
-		cv = cPickle.load(f)
+		cv = pickle.load(f)
 	
 	# Execute each run
 	for tr, te in cv:
@@ -91,7 +91,7 @@ def one_cv(base_dir, cv_split):
 	
 	# Get the CV splits
 	with open(os.path.join(base_dir, 'cv.pkl'), 'rb') as f:
-		cv = cPickle.load(f)
+		cv = pickle.load(f)
 	tr, te = cv[cv_split - 1]
 	
 	# Remove the split directory, if it exists

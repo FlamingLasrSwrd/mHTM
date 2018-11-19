@@ -22,7 +22,7 @@ G{packagetree mHTM}
 __docformat__ = 'epytext'
 
 # Native imports
-import os, cPickle, json, sys
+import os, pickle, json, sys
 
 # Third party imports
 import numpy as np
@@ -144,7 +144,7 @@ def base_experiment(config, ntrials=1, seed=123456789):
 	x_tr = tr_x_0[:ntrain]
 	x_te = tr_x_0[ntrain:ntrain + ntest]
 	outliers = [np.random.permutation(tr_x[tr_y == i])[:ntest] for i in
-		xrange(1, 10)]
+		range(1, 10)]
 	
 	# Metrics
 	metrics = SPMetrics()
@@ -164,12 +164,12 @@ def base_experiment(config, ntrials=1, seed=123456789):
 	
 	# Initialize the overall results
 	sp_x_results = np.zeros(ntrials)
-	sp_y_results = [np.zeros(ntrials) for _ in xrange(9)]
+	sp_y_results = [np.zeros(ntrials) for _ in range(9)]
 	svm_x_results = np.zeros(ntrials)
-	svm_y_results = [np.zeros(ntrials) for _ in xrange(9)]
+	svm_y_results = [np.zeros(ntrials) for _ in range(9)]
 	
 	# Iterate across the trials:
-	for nt in xrange(ntrials):
+	for nt in range(ntrials):
 		# Make a new seeod
 		seed2 = np.random.randint(1000000)
 		config['seed'] = seed2
@@ -244,7 +244,7 @@ def base_experiment(config, ntrials=1, seed=123456789):
 		u_sp_base_to_x_te /= ntest
 		o_sp_base_to_x_te /= ntest
 		c_sp_base_to_x_te /= ntest
-		for i in xrange(9):
+		for i in range(9):
 			u_sp[i] /= ntest
 			o_sp[i] /= ntest
 			c_sp[i] /= ntest
@@ -254,7 +254,7 @@ def base_experiment(config, ntrials=1, seed=123456789):
 			u_sp_base_to_x_te)
 		sp._log_stats('Base Train to Base Test Overlap', o_sp_base_to_x_te)
 		sp._log_stats('Base Train to Base Test Correlation', c_sp_base_to_x_te)
-		for i, j in enumerate(xrange(1, 10)):
+		for i, j in enumerate(range(1, 10)):
 			sp._log_stats('Base Train to Novelty {0} Uniqueness'.format(j),
 				u_sp[i])
 			sp._log_stats('Base Train to Novelty {0} Overlap'.format(j),
@@ -297,7 +297,7 @@ def base_experiment(config, ntrials=1, seed=123456789):
 		# Log the results
 		sp._log_stats('SP % Correct Base Class', clf_x_te)
 		sp._log_stats('SVM % Correct Base Class', svm_x_te)
-		for i, j in enumerate(xrange(1, 10)):
+		for i, j in enumerate(range(1, 10)):
 			sp._log_stats('SP % Correct Novelty Class {0}'.format(j),
 				clf_y_te[i])
 			sp._log_stats('SVM % Correct Novelty Class {0}'.format(j),
@@ -329,10 +329,10 @@ def slurm_prep(log_dir, niter=10000, partition_name='debug',
 	static_config, dynamic_config = parallel_params(log_dir, niter)
 	
 	# Create the runs
-	for i in xrange(1, niter + 1):
+	for i in range(1, niter + 1):
 		# Build the initial params
 		params = {k:v.rvs() for k, v in sorted(dynamic_config.items())}
-		for k, v in static_config.items():
+		for k, v in list(static_config.items()):
 			params[k] = v
 		
 		# Create the base directory

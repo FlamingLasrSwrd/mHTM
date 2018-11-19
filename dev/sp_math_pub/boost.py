@@ -20,9 +20,9 @@ G{packagetree mHTM}
 """
 
 # Native imports
-from itertools import izip
+
 import os
-import cPickle
+import pickle
 
 # Third-Party imports
 import numpy as np
@@ -77,13 +77,13 @@ def plot_boost(out_dir, duty_cycle=1000., max_boost=10):
 		
 		# Evaluate the boost at each instance
 		z = np.array([[compute_boost(xii, yii, max_boost) for xii, yii in
-			izip(xi, yi)] for xi, yi in izip(x, y)])
+			zip(xi, yi)] for xi, yi in zip(x, y)])
 		
 		with open(data_path, 'wb') as f:
-			cPickle.dump((x, y, z), f, cPickle.HIGHEST_PROTOCOL)
+			pickle.dump((x, y, z), f, pickle.HIGHEST_PROTOCOL)
 	else:
 		with open(data_path, 'rb') as f:
-			x, y, z = cPickle.load(f)
+			x, y, z = pickle.load(f)
 	
 	# Save the plots
 	plot_surface(x, y, z, 'Active Duty Cycle', 'Minimum Active\nDuty Cycle',

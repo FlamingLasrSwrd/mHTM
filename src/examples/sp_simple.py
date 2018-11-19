@@ -82,7 +82,7 @@ def main():
 		
 	# Vary input noise
 	for i, pct_noise in enumerate(pct_noises):
-		print 'Iteration {0} of {1}'.format(i + 1, npoints)
+		print('Iteration {0} of {1}'.format(i + 1, npoints))
 		
 		# Build the dataset
 		ds = SPDataset(nsamples=nsamples, nbits=nbits, pct_active=pct_active,
@@ -124,50 +124,50 @@ def main():
 		correlation_sp[i] = 1 - metrics.compute_distance(sp_output)
 	
 	# Make some plots
-	print 'Showing uniqueness - 0% is ideal'
+	print('Showing uniqueness - 0% is ideal')
 	plot_line([pct_noises * 100, pct_noises * 100], [uniqueness_data * 100,
 		uniqueness_sp * 100], series_names=('Raw Data', 'SP Output'),
 		x_label='% Noise', y_label='Uniqueness [%]', xlim=False,
 		ylim=(-5, 105),	out_path=os.path.join(base_path, 'uniqueness.png'),
 		show=True)
-	print 'Showing total similarity - 100% is ideal'
+	print('Showing total similarity - 100% is ideal')
 	plot_line([pct_noises * 100, pct_noises * 100], [similarity_data * 100,
 		similarity_sp * 100], series_names=('Raw Data', 'SP Output'),
 		x_label='% Noise', y_label='Total similarity [%]', xlim=False,
 		ylim=(-5, 105), out_path=os.path.join(base_path, 'similarity.png'),
 		show=True)
-	print 'Showing similarity of "1" bits - 100% is ideal'
+	print('Showing similarity of "1" bits - 100% is ideal')
 	plot_line([pct_noises * 100, pct_noises * 100], [similarity_data1 * 100,
 		similarity_sp1 * 100], series_names=('Raw Data', 'SP Output'),
 		x_label='% Noise', y_label="Similarity of '1's [%]", xlim=False,
 		ylim=(-5, 105), out_path=os.path.join(base_path, 'one_similarity.png'),
 		show=True)
-	print 'Showing similarity of "0" bits - 100% is ideal'
+	print('Showing similarity of "0" bits - 100% is ideal')
 	plot_line([pct_noises * 100, pct_noises * 100], [similarity_data0 * 100,
 		similarity_sp0 * 100], series_names=('Raw Data', 'SP Output'),
 		x_label='% Noise', y_label="Similarity of '0's [%]", xlim=False,
 		ylim=(-5, 105), out_path=os.path.join(base_path, 'zero_similarity.png'),
 		show=True)
-	print 'Showing dissimilarity - 0% is ideal'
+	print('Showing dissimilarity - 0% is ideal')
 	plot_line([pct_noises * 100, pct_noises * 100], [dissimilarity_data * 100,
 		dissimilarity_sp * 100], series_names=('Raw Data', 'SP Output'),
 		x_label='% Noise', y_label="Dissimilarity [%]", xlim=False,
 		ylim=(-5, 105), out_path=os.path.join(base_path, 'dissimilarity.png'),
 		show=True)
-	print 'Showing average normalized overlap - 100% is ideal'
+	print('Showing average normalized overlap - 100% is ideal')
 	plot_line([pct_noises * 100, pct_noises * 100], [overlap_data * 100,
 		overlap_sp * 100], series_names=('Raw Data', 'SP Output'),
 		x_label='% Noise', y_label="% Normalized Overlap", xlim=False,
 		ylim=(-5, 105), out_path=os.path.join(base_path, 'overlap.png'),
 		show=True)
-	print 'Showing % average sample correlation coefficient - 100% is ideal'
+	print('Showing % average sample correlation coefficient - 100% is ideal')
 	plot_line([pct_noises * 100, pct_noises * 100], [correlation_data * 100,
 		correlation_sp * 100], series_names=('Raw Data', 'SP Output'),
 		x_label='% Noise', y_label="% Correlation", xlim=False,
 		ylim=(-5, 105), out_path=os.path.join(base_path, 'correlation.png'),
 		show=True)
 	
-	print '*** All data saved in "{0}" ***'.format(base_path)
+	print('*** All data saved in "{0}" ***'.format(base_path))
 
 if __name__ == '__main__':
 	main()

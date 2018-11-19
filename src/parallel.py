@@ -23,7 +23,7 @@ __docformat__ = 'epytext'
 
 # Native imports
 import subprocess, time, os
-from itertools import product, izip
+from itertools import product
 
 # Third party imports
 from scipy.stats import randint
@@ -130,7 +130,7 @@ def execute_runner(runner_path, queue_limit=7000):
 	
 	# Wait until there is enough room in the queue
 	while not queue_free():
-		print 'Queue full - Sleeping until it is free....'
+		print('Queue full - Sleeping until it is free....')
 		time.sleep(600)
 	
 	# Execute file
@@ -141,8 +141,8 @@ def execute_runner(runner_path, queue_limit=7000):
 		if len(error) == 0:
 			break
 		else:
-			print error
-			print 'Sleeping and retrying!'
+			print(error)
+			print('Sleeping and retrying!')
 			time.sleep(10)
 
 class ParamGenerator(object):
@@ -186,7 +186,7 @@ class ParamGenerator(object):
 		@return: The next parameter value.
 		"""
 		
-		return self.gen.next()
+		return next(self.gen)
 	
 	def make_data(self):
 		"""
@@ -199,7 +199,7 @@ class ParamGenerator(object):
 			len(str(self.nsplits)))
 		
 		# Create the parameters for each instance
-		for i in xrange(1, self.niter + 1):
+		for i in range(1, self.niter + 1):
 			# Make the params
 			ncolumns = self.param_distributions['ncolumns'].rvs()
 			param = {'ncolumns':ncolumns}
@@ -286,7 +286,7 @@ class ConfigGenerator(object):
 		
 		# Split out iterables and non iterables
 		static_params, dynamic_params = {}, {}
-		for key, value in self.base_config.items():
+		for key, value in list(self.base_config.items()):
 			if hasattr(value, '__iter__'):
 				dynamic_params[key] = list(value)
 			else:
@@ -301,7 +301,7 @@ class ConfigGenerator(object):
 		if log_dir is not None:
 			# Compute the number of configurations
 			nconfigs = 0
-			for i in enumerate(product(*dynamic_params.values())):
+			for i in enumerate(product(*list(dynamic_params.values()))):
 				nconfigs += 1
 			
 			# Make the log format
@@ -310,11 +310,11 @@ class ConfigGenerator(object):
 				'{{0:0{0}d}}'.format(len(str(self.ntrials))).format(1))
 		
 		# Create all possible set of dynamic parameters
-		for i, items in enumerate(product(*dynamic_params.values()), 1):
+		for i, items in enumerate(product(*list(dynamic_params.values())), 1):
 			config = static_params.copy()
 			
 			# Add all dynamic items
-			for item, param in izip(items, dynamic_params): 
+			for item, param in zip(items, dynamic_params): 
 				config[param] = item
 			
 			# Make a useful log directory

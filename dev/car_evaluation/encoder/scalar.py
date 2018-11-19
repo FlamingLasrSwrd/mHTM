@@ -28,7 +28,7 @@ import numpy as np
 
 # Program imports
 from encoder import Encoder
-from errors import BaseException, wrap_error
+from .errors import BaseException, wrap_error
 
 ###############################################################################
 ########## Exception Handling
@@ -471,7 +471,7 @@ class Scalar(Encoder):
 		"""
 		
 		bins = []
-		for bin in xrange(self.num_bins):
+		for bin in range(self.num_bins):
 			bins.append(self._encode_bin(bin))
 		return bins
 	

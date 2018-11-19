@@ -22,7 +22,7 @@ G{packagetree mHTM}
 __docformat__ = 'epytext'
 
 # Native imports
-import os, cPickle
+import os, pickle
 
 # Third party imports
 import numpy as np
@@ -103,7 +103,7 @@ def base_experiment(pct_noise=0.15, noverlap_bits=0, exp_name='1-1',
 	
 	# Create the outlier dataset
 	base_indexes = set(np.where(x_ds.base_class == 1)[0])
-	choices = [x for x in xrange(nbits) if x not in base_indexes]
+	choices = [x for x in range(nbits) if x not in base_indexes]
 	outlier_base = np.zeros(nbits, dtype='bool')
 	outlier_base[np.random.choice(choices, x_ds.nactive - noverlap_bits,
 		False)] = 1
@@ -112,12 +112,12 @@ def base_experiment(pct_noise=0.15, noverlap_bits=0, exp_name='1-1',
 	y_te = y_ds.data
 	
 	if verbose:
-		print "\nBase class' test noise: {0:2.2f}".format(1 - (np.mean(x_te, 0)
-			* x_ds.base_class.astype('i')).sum() / 40.)
-		print "Outlier's class noise: {0:2.2f}".format(1 - (np.mean(y_te, 0) *
-			outlier_base.astype('i')).sum() / 40.)
-		print 'Overlap between two classes: {0}'.format(np.dot(
-			x_ds.base_class.astype('i'), outlier_base.astype('i')))
+		print(("\nBase class' test noise: {0:2.2f}".format(1 - (np.mean(x_te, 0)
+			* x_ds.base_class.astype('i')).sum() / 40.)))
+		print(("Outlier's class noise: {0:2.2f}".format(1 - (np.mean(y_te, 0) *
+			outlier_base.astype('i')).sum() / 40.)))
+		print(('Overlap between two classes: {0}'.format(np.dot(
+			x_ds.base_class.astype('i'), outlier_base.astype('i')))))
 	
 	# Metrics
 	metrics = SPMetrics()
@@ -140,7 +140,7 @@ def base_experiment(pct_noise=0.15, noverlap_bits=0, exp_name='1-1',
 	svm_y_results = np.zeros(ntrials)
 	
 	# Iterate across the trials:
-	for i in xrange(ntrials):
+	for i in range(ntrials):
 		# Make a new seed
 		seed2 = np.random.randint(1000000)
 		config['seed'] = seed2
@@ -191,13 +191,13 @@ def base_experiment(pct_noise=0.15, noverlap_bits=0, exp_name='1-1',
 		# Print the results
 		fmt_s = '{0}:\t{1:2.4f}\t{2:2.4f}\t{3:2.4f}\t{4:2.4f}\t{5:2.4f}\t{5:2.4f}'
 		if verbose:
-			print '\nDescription\tx_tr\tx_te\ty_te\tsp_x_tr\tsp_x_te\tsp_y_te'
-			print fmt_s.format('Uniqueness', u_x_tr, u_x_te, u_y_te, u_sp_x_tr,
-				u_sp_x_te, u_sp_y_te)
-			print fmt_s.format('Overlap', o_x_tr, o_x_te, o_y_te, o_sp_x_tr, o_sp_x_te,
-				o_sp_y_te)
-			print fmt_s.format('Correlation', c_x_tr, c_x_te, c_y_te, c_sp_x_tr,
-				c_sp_x_te, c_sp_y_te)
+			print('\nDescription\tx_tr\tx_te\ty_te\tsp_x_tr\tsp_x_te\tsp_y_te')
+			print((fmt_s.format('Uniqueness', u_x_tr, u_x_te, u_y_te, u_sp_x_tr,
+				u_sp_x_te, u_sp_y_te)))
+			print((fmt_s.format('Overlap', o_x_tr, o_x_te, o_y_te, o_sp_x_tr, o_sp_x_te,
+				o_sp_y_te)))
+			print((fmt_s.format('Correlation', c_x_tr, c_x_te, c_y_te, c_sp_x_tr,
+				c_sp_x_te, c_sp_y_te)))
 		
 		# Get average representation of the base class
 		sp_base_result = np.mean(sp_x_tr, 0)
@@ -243,13 +243,13 @@ def base_experiment(pct_noise=0.15, noverlap_bits=0, exp_name='1-1',
 		
 		# Print the results
 		if verbose:
-			print '\nDescription\tx_tr->x_te\tx_tr->y_te'
-			print 'Uniqueness:\t{0:2.4f}\t{1:2.4f}'.format(u_sp_base_to_x_te,
-				u_sp_base_to_y_te)
-			print 'Overlap:\t{0:2.4f}\t{1:2.4f}'.format(o_sp_base_to_x_te,
-				o_sp_base_to_y_te)
-			print 'Correlation:\t{0:2.4f}\t{1:2.4f}'.format(c_sp_base_to_x_te,
-				c_sp_base_to_y_te)
+			print('\nDescription\tx_tr->x_te\tx_tr->y_te')
+			print(('Uniqueness:\t{0:2.4f}\t{1:2.4f}'.format(u_sp_base_to_x_te,
+				u_sp_base_to_y_te)))
+			print(('Overlap:\t{0:2.4f}\t{1:2.4f}'.format(o_sp_base_to_x_te,
+				o_sp_base_to_y_te)))
+			print(('Correlation:\t{0:2.4f}\t{1:2.4f}'.format(c_sp_base_to_x_te,
+				c_sp_base_to_y_te)))
 		
 		# Create an SVM
 		clf = OneClassSVM(kernel='linear', nu=0.1, random_state=seed2)
@@ -292,10 +292,10 @@ def base_experiment(pct_noise=0.15, noverlap_bits=0, exp_name='1-1',
 		
 		# Print the results
 		if verbose:
-			print '\nSP Base Class Detection     : {0:2.2f}%'.format(clf_x_te)
-			print 'SP Novelty Class Detection  : {0:2.2f}%'.format(clf_y_te)
-			print 'SVM Base Class Detection    : {0:2.2f}%'.format(svm_x_te)
-			print 'SVM Novelty Class Detection : {0:2.2f}%'.format(svm_y_te)
+			print(('\nSP Base Class Detection     : {0:2.2f}%'.format(clf_x_te)))
+			print(('SP Novelty Class Detection  : {0:2.2f}%'.format(clf_y_te)))
+			print(('SVM Base Class Detection    : {0:2.2f}%'.format(svm_x_te)))
+			print(('SVM Novelty Class Detection : {0:2.2f}%'.format(svm_y_te)))
 	
 	return sp_x_results, sp_y_results, svm_x_results, svm_y_results
 
@@ -376,18 +376,18 @@ def main(ntrials=10, seed=123456798):
 	# # Save the results
 	p = os.path.join(os.path.expanduser('~'), 'scratch', 'novelty_experiments')
 	with open(os.path.join(p, 'results.pkl'), 'wb') as f:
-		cPickle.dump((noise_x, noise_y), f, cPickle.HIGHEST_PROTOCOL)
-		cPickle.dump((svm_noise_x, svm_noise_y), f, cPickle.HIGHEST_PROTOCOL)
-		cPickle.dump((noise_x_err, noise_y_err), f, cPickle.HIGHEST_PROTOCOL)
-		cPickle.dump((svm_noise_x_err, svm_noise_y_err), f,
-			cPickle.HIGHEST_PROTOCOL)
-		cPickle.dump((overlap_x, overlap_y), f, cPickle.HIGHEST_PROTOCOL)
-		cPickle.dump((svm_overlap_x, svm_overlap_y), f,
-			cPickle.HIGHEST_PROTOCOL)		
-		cPickle.dump((overlap_x_err, overlap_y_err), f,
-			cPickle.HIGHEST_PROTOCOL)
-		cPickle.dump((svm_overlap_x_err, svm_overlap_y_err), f,
-			cPickle.HIGHEST_PROTOCOL)
+		pickle.dump((noise_x, noise_y), f, pickle.HIGHEST_PROTOCOL)
+		pickle.dump((svm_noise_x, svm_noise_y), f, pickle.HIGHEST_PROTOCOL)
+		pickle.dump((noise_x_err, noise_y_err), f, pickle.HIGHEST_PROTOCOL)
+		pickle.dump((svm_noise_x_err, svm_noise_y_err), f,
+			pickle.HIGHEST_PROTOCOL)
+		pickle.dump((overlap_x, overlap_y), f, pickle.HIGHEST_PROTOCOL)
+		pickle.dump((svm_overlap_x, svm_overlap_y), f,
+			pickle.HIGHEST_PROTOCOL)		
+		pickle.dump((overlap_x_err, overlap_y_err), f,
+			pickle.HIGHEST_PROTOCOL)
+		pickle.dump((svm_overlap_x_err, svm_overlap_y_err), f,
+			pickle.HIGHEST_PROTOCOL)
 	
 	# Make the plots
 	plot_error((pct_noises * 100, pct_noises * 100), (noise_x, svm_noise_x),

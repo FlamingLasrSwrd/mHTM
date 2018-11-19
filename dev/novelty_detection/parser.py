@@ -22,7 +22,7 @@ G{packagetree mHTM}
 __docformat__ = 'epytext'
 
 # Native imports
-import os, cPickle, re
+import os, pickle, re
 
 # Third party imports
 import numpy as np
@@ -95,7 +95,7 @@ def dump_results(bp):
 		
 		# Read in the data
 		with open(os.path.join(bp, p, 'results.pkl')) as f:
-			sp_x, sp_y, svm_x, svm_y = cPickle.load(f)
+			sp_x, sp_y, svm_x, svm_y = pickle.load(f)
 		
 		# Add to data structures
 		sp_x_results.append(sp_x)
@@ -105,9 +105,9 @@ def dump_results(bp):
 	
 	# Dump the results
 	with open(os.path.join(bp, 'full_results.pkl'), 'wb') as f:
-		cPickle.dump((np.array(sp_x_results), np.array(sp_y_results),
+		pickle.dump((np.array(sp_x_results), np.array(sp_y_results),
 			np.array(svm_x_results), np.array(svm_y_results), np.array(param)),
-			f, cPickle.HIGHEST_PROTOCOL)
+			f, pickle.HIGHEST_PROTOCOL)
 
 def make_3d_plot(p):
 	"""
@@ -118,7 +118,7 @@ def make_3d_plot(p):
 	
 	# Get the data
 	with open(p, 'rb') as f:
-		sp_x, sp_y, svm_x, svm_y, param = cPickle.load(f)
+		sp_x, sp_y, svm_x, svm_y, param = pickle.load(f)
 	sp_x, sp_y = np.median(sp_x, 1), np.median(sp_y, 1)
 	svm_x, svm_y = np.median(svm_x, 1), np.median(svm_y, 1)
 	
@@ -178,7 +178,7 @@ def make_2d_plot(p, noise=None, overlap=None):
 	
 	# Get the data
 	with open(p, 'rb') as f:
-		sp_x, sp_y, svm_x, svm_y, param = cPickle.load(f)
+		sp_x, sp_y, svm_x, svm_y, param = pickle.load(f)
 	
 	# Fix the messed up sort order
 	ix = np.array(pd.DataFrame(param).sort_values([0, 1],
@@ -204,8 +204,8 @@ def make_2d_plot(p, noise=None, overlap=None):
 		name = 'noise'
 		term = 100.
 	else:
-		raise 'noise and overlap are exclusive parameters'
-	for i in xrange(len(param)):
+		raise ValueError('noise and overlap are exclusive parameters')
+	for i in range(len(param)):
 		if func(param[i][id]) == val: ix.append(i)
 	x = param[ix][:, id2] * term
 	
@@ -230,7 +230,7 @@ if __name__ == '__main__':
 	missing = get_missing(p)
 	if len(missing) > 0:
 		for item in missing:
-			print item
+			print(item)
 	else:
 		# Repackage everything
 		dump_results(p)

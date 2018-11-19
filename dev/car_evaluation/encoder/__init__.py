@@ -34,11 +34,11 @@ G{packagetree nano_htm}
 __docformat__ = 'epytext'
 
 # Program imports
-from base import Encoder
-from scalar import Scalar
-from multi import Multi
-from category import Category
-from errors import BaseException, wrap_error
+from .base import Encoder
+from .scalar import Scalar
+from .multi import Multi
+from .category import Category
+from .errors import BaseException, wrap_error
 
 ###############################################################################
 ########## Exception Handling

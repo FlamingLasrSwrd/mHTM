@@ -28,7 +28,7 @@ import numpy as np
 
 # Program imports
 from encoder import Encoder, Scalar
-from errors import BaseException, wrap_error
+from .errors import BaseException, wrap_error
 
 ###############################################################################
 ########## Exception Handling

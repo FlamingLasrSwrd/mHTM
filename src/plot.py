@@ -24,7 +24,7 @@ __docformat__ = 'epytext'
 
 # Native imports
 import os
-from itertools import cycle, izip
+from itertools import cycle
 
 # Third-Party imports
 import numpy as np
@@ -220,12 +220,12 @@ def plot_error(x_series, y_series, series_names=None, y_errs=None,
 	# Add the data
 	if y_errs is not None:
 		for x, y, err in zip(x_series, y_series, y_errs):
-			ax.errorbar(x, y, yerr=err, color=colors.next(), capsize=10,
-				capthick=2,	marker=markers.next())
+			ax.errorbar(x, y, yerr=err, color=next(colors), capsize=10,
+				capthick=2,	marker=next(markers))
 			ax.get_xaxis().set_major_locator(MaxNLocator(integer=True))
 	else:
 		for x, y in zip(x_series, y_series):
-			ax.scatter(x, y, color=colors.next(), marker=markers.next(), s=120)
+			ax.scatter(x, y, color=next(colors), marker=next(markers), s=120)
 	
 	# Create the legend
 	if series_names is not None and legend:
@@ -306,7 +306,7 @@ def plot_line(x_series, y_series, series_names=None, x_label=None,
 	
 	# Add the data
 	for x, y in zip(x_series, y_series):
-		ax.plot(x, y, color=colors.next(), linewidth=3)
+		ax.plot(x, y, color=next(colors), linewidth=3)
 	
 	# Create the legend
 	if series_names is not None:
@@ -399,7 +399,7 @@ def plot_grid_images(X, shape, nrows, ncols, title=None, labels=None,
 	if labels is None: labels = [None] * X.shape[0]
 	
 	# Add all of the figures to the grid
-	for i, (x, y) in enumerate(izip(X, labels)):
+	for i, (x, y) in enumerate(zip(X, labels)):
 		ax = plt.subplot(nrows, ncols, i + 1)
 		ax.set_title(y)
 		ax.imshow(x.reshape(shape), cmap=plt.get_cmap('gray'), vmin=0,
@@ -446,11 +446,11 @@ def plot_compare_images(x_series, shape, title=None, series_labels=None,
 	gs = gridspec.GridSpec(nseries, nsamples, wspace=0, hspace=0.5)
 	if title is not None: fig.suptitle(title)
 	if series_labels is None: series_labels = [[None] * nsamples for _ in
-		xrange(nseries)]
+		range(nseries)]
 	
 	# Add images
-	for i, (x, labels) in enumerate(izip(x_series, series_labels)):
-		for j, (xi, y) in enumerate(izip(x, labels)):
+	for i, (x, labels) in enumerate(zip(x_series, series_labels)):
+		for j, (xi, y) in enumerate(zip(x, labels)):
 			ax = plt.subplot(gs[i, j])
 			if y is not None: ax.set_title(y)
 			ax.imshow(xi.reshape(shape), cmap=plt.get_cmap('gray'), vmin=0,
@@ -574,7 +574,7 @@ def plot_surface_video(x, y, z, out_dir, x_label=None, y_label=None,
 	
 	# Save the plot
 	fig.set_size_inches(19.20, 10.80)
-	for i in xrange(360):
+	for i in range(360):
 		ax.view_init(elev=elev, azim=i)
 		plt.savefig(os.path.join(out_dir, '{0}.png'.format(i)), format='png',
 			dpi=100)	

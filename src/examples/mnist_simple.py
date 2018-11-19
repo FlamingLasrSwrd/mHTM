@@ -83,26 +83,26 @@ def main(ntrain=800, ntest=200, nsplits=1, seed=123456789):
 		clf = LinearSVC(random_state=seed)
 		clf.fit(x[tr], y[tr])
 		score = clf.score(x[te], y[te])
-		print 'SVM Only Accuracy: {0:.2f}%'.format(score * 100)
+		print('SVM Only Accuracy: {0:.2f}%'.format(score * 100))
 		
 		# Test the region for the column method
 		score = sp.score(x[te], y[te])
-		print 'Column Accuracy: {0:.2f}%'.format(score * 100)
+		print('Column Accuracy: {0:.2f}%'.format(score * 100))
 		
 		# Test the region for the probabilistic method
 		score = sp.score(x[te], y[te], tr_x=x[tr], score_method='prob')
-		print 'Probabilistic Accuracy: {0:.2f}%'.format(score * 100)
+		print('Probabilistic Accuracy: {0:.2f}%'.format(score * 100))
 		
 		# Test the region for the dimensionality reduction method
 		score = sp.score(x[te], y[te], tr_x=x[tr], score_method='reduction')
 		ndims = len(sp.reduce_dimensions(x[0]))
-		print 'Input Reduced from {0} to {1}: {2:.1f}X reduction'.format(
-			ninputs, ndims, ninputs / float(ndims))
-		print 'Reduction Accuracy: {0:.2f}%'.format(score * 100)
+		print('Input Reduced from {0} to {1}: {2:.1f}X reduction'.format(
+			ninputs, ndims, ninputs / float(ndims)))
+		print('Reduction Accuracy: {0:.2f}%'.format(score * 100))
 	
 	# Get a random set of unique inputs from the training set
 	inputs = np.zeros((10, ninputs))
-	for i in xrange(10):
+	for i in range(10):
 		ix = np.random.permutation(np.where(y[tr] == i)[0])[0]
 		inputs[i] = x[tr][ix]
 	

@@ -22,7 +22,7 @@ G{packagetree mHTM}
 __docformat__ = 'epytext'
 
 # Native imports
-import cPickle, random, os, time, json
+import pickle, random, os, time, json
 
 # Third party imports
 import numpy as np
@@ -54,7 +54,7 @@ def make_data(p, nitems=100, width=100, density=0.3, seed=123456789):
 	
 	# Build the dataset
 	ds = np.zeros((nitems, width), dtype='bool')
-	for i in xrange(nitems):
+	for i in range(nitems):
 		indexes = set(np.random.randint(0, width, nactive))
 		while len(indexes) != nactive:
 			indexes.add(random.randint(0, width - 1))
@@ -62,7 +62,7 @@ def make_data(p, nitems=100, width=100, density=0.3, seed=123456789):
 	
 	# Write the file
 	with open(p, 'wb') as f:
-		cPickle.dump(ds, f, cPickle.HIGHEST_PROTOCOL)
+		pickle.dump(ds, f, pickle.HIGHEST_PROTOCOL)
 	
 	return ds
 
@@ -74,7 +74,7 @@ def load_data(p):
 	"""
 		
 	with open(p, 'rb') as f:
-		ds = cPickle.load(f)
+		ds = pickle.load(f)
 	return ds
 
 def main(ds, p, n_iters=100, seed=123456789):
@@ -103,7 +103,7 @@ def main(ds, p, n_iters=100, seed=123456789):
 		
 		# Run the SP
 		t = time.time()
-		for _ in xrange(n_iters):
+		for _ in range(n_iters):
 			sp = SPRegion(**kargs)
 			sp.c_sboost = 0 # Ensure that no permanence boosting occurs
 			sp.execute(ds, store=False)
@@ -112,7 +112,7 @@ def main(ds, p, n_iters=100, seed=123456789):
 		# Dump the permanence matrix
 		with open(os.path.join(p, '{0}-permanence.pkl'.format(type)), 'wb') \
 			as f:
-			cPickle.dump(sp.p, f, cPickle.HIGHEST_PROTOCOL)
+			pickle.dump(sp.p, f, pickle.HIGHEST_PROTOCOL)
 		
 		# Dump the details
 		kargs['density'] = density
@@ -156,8 +156,8 @@ def main(ds, p, n_iters=100, seed=123456789):
 	b_sp, b_t = go(b_kargs, 'boost')
 	
 	# Verify that the two are the same
-	print 'Results are identical:', np.all(b_sp.p == nb_sp.p)
-	print 'Speedup if boosting is disabled:', b_t / nb_t
+	print('Results are identical:', np.all(b_sp.p == nb_sp.p))
+	print('Speedup if boosting is disabled:', b_t / nb_t)
 
 if __name__ == '__main__':
 	# Path to some scratch space to work with - default to home directory

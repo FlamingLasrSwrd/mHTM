@@ -85,7 +85,7 @@ def main(ntrain=800, ntest=200, nsplits=1, seed=1234567):
 	
 	# Get a random set of unique inputs from the training set
 	inputs = np.zeros((10, ninputs))
-	for i in xrange(10):
+	for i in range(10):
 		ix = np.random.permutation(np.where(y[tr] == i)[0])[0]
 		inputs[i] = x[tr][ix]
 	

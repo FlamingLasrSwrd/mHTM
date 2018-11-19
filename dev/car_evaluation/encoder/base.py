@@ -29,17 +29,16 @@ from abc import ABCMeta, abstractmethod
 import numpy as np
 
 # Program imports
-from util import flatten, create_unique_name
+from .util import flatten, create_unique_name
 
 ###############################################################################
 ########## Class Template
 ###############################################################################
 
-class Encoder(object):
+class Encoder(object, metaclass=ABCMeta):
 	"""
 	Base class for an encoder.
 	"""
-	__metaclass__ = ABCMeta
 	
 	def __init__(self, num_bits, name=None):
 		"""

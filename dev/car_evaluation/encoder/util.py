@@ -30,7 +30,7 @@ from uuid import uuid4
 import numpy as np
 
 # Program imports
-from errors import InvalidSequence
+from .errors import InvalidSequence
 
 ###############################################################################
 ########## Primary Functions

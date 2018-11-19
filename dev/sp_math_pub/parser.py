@@ -63,7 +63,7 @@ G{packagetree mHTM}
 __docformat__ = 'epytext'
 
 # Native imports
-import json, os, pkgutil, csv, cPickle
+import json, os, pkgutil, csv, pickle
 
 # Third party imports
 import numpy as np
@@ -81,7 +81,7 @@ def save_results(results, p):
 	"""
 	
 	with open(p, 'wb') as f:
-		cPickle.dump(results, f, cPickle.HIGHEST_PROTOCOL)
+		pickle.dump(results, f, pickle.HIGHEST_PROTOCOL)
 
 def load_results(p):
 	"""
@@ -91,7 +91,7 @@ def load_results(p):
 	"""
 	
 	with open(p, 'rb') as f:
-		return np.array(cPickle.load(f))
+		return np.array(pickle.load(f))
 
 def get_missing_results(bp):
 	"""
@@ -327,4 +327,4 @@ if __name__ == '__main__':
 		# launch_top_runs(top_paths, bp2, command, False, 'work')
 		
 		# Find the top job
-		print get_top_path(bp)
+		print(get_top_path(bp))

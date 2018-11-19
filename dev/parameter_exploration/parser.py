@@ -40,7 +40,7 @@ G{packagetree mHTM}
 __docformat__ = 'epytext'
 
 # Native imports
-import csv, json, os, re, cPickle
+import csv, json, os, re, pickle
 
 # Third party imports
 import numpy as np
@@ -187,7 +187,7 @@ def main(root_dir):
 			# Save the results
 			if not ((x is None) and (y is None)):
 				with open(os.path.join(root_dir, '{0}.pkl'.format(prev_name)), 'wb') as f:
-					cPickle.dump((x, y), f, cPickle.HIGHEST_PROTOCOL)
+					pickle.dump((x, y), f, pickle.HIGHEST_PROTOCOL)
 			
 			# Get the new data
 			x, y = get_results(dir, parameter_names)
@@ -213,7 +213,7 @@ def main2(base_path):
 	
 	# Get the data
 	with open(base_path, 'rb') as f:
-		x, y = cPickle.load(f)
+		x, y = pickle.load(f)
 	x = sorted(set(x[-1])) # For now work with 1D
 	
 	# Pull out data for this plot
@@ -225,12 +225,12 @@ def main2(base_path):
 	x_series = (x, x, x)
 	med = lambda y: np.median(y, axis=1) * 100
 	err = lambda y: compute_err(y, axis=1) * 100
-	y1_series = map(med, y1)
-	y1_errs = map(err, y1)
-	y2_series = map(med, y2)
-	y2_errs = map(err, y2)
-	y3_series = map(med, y3)
-	y3_errs = map(err, y3)
+	y1_series = list(map(med, y1))
+	y1_errs = list(map(err, y1))
+	y2_series = list(map(med, y2))
+	y2_errs = list(map(err, y2))
+	y3_series = list(map(med, y3))
+	y3_errs = list(map(err, y3))
 	
 	# Make the main plot
 	fig = plt.figure(figsize=(21, 20), facecolor='white')
@@ -276,6 +276,6 @@ if __name__ == '__main__':
 	inhibition_type = 'global'
 	root_dir = os.path.join(results_dir, experiment_name, inhibition_type)
 	for experiment in (os.listdir(root_dir)):
-		print experiment
+		print(experiment)
 		base_path = os.path.join(root_dir, experiment)
 		main2(base_path)

@@ -22,7 +22,7 @@ G{packagetree mHTM}
 __docformat__ = 'epytext'
 
 # Native imports
-import os, cPickle
+import os, pickle
 
 # Third party imports
 import numpy as np
@@ -161,7 +161,7 @@ def main(base_path, ntrials=4, seed=123456789):
 	
 	# Save the results
 	with open(os.path.join(base_path, 'results.pkl'), 'wb') as f:
-		cPickle.dump((u_sp, u_ip, o_sp, o_ip), f, cPickle.HIGHEST_PROTOCOL)
+		pickle.dump((u_sp, u_ip, o_sp, o_ip), f, pickle.HIGHEST_PROTOCOL)
 	
 	# Make some plots
 	e = (compute_err(u_sp, axis=0), compute_err(u_ip, axis=0))

@@ -41,7 +41,7 @@ def comb(n, k):
 	"""
 	
 	p = 1.
-	for i in xrange(1, k + 1):
+	for i in range(1, k + 1):
 		p *= (n + 1. - i) / i
 	return p
 
@@ -98,7 +98,7 @@ def p_b(ncols, npsyns, ninputs, k=1):
 	
 	# Sum of probabilities of an input connecting to k columns
 	p2 = 0.
-	for i in xrange(k):
+	for i in range(k):
 		p2 += comb(ncols, i) * (p ** i) * ((1 - p) ** (ncols - i))
 	return p2
 
@@ -186,7 +186,7 @@ def e_e(npsyns, p_active_input, ncols, seg_th):
 	
 	p = p_active_input
 	p2 = 0.
-	for i in xrange(seg_th):
+	for i in range(seg_th):
 		p2 += comb(npsyns, i) * (p ** i) * ((1 - p) ** (npsyns - i))
 	return ncols * (1 - p2)
 
@@ -211,7 +211,7 @@ def e_f(npsyns, p_active_input, ncols, seg_th, syn_th):
 	p = p_active_input * syn_th
 	
 	p2 = 0.
-	for i in xrange(seg_th):
+	for i in range(seg_th):
 		p2 += comb(npsyns, i) * (p ** i) * ((1 - p) ** (npsyns - i))
 	return ncols * (1 - p2)
 
@@ -238,27 +238,27 @@ def main(ncols, npsyns, ninputs, density, seg_th, syn_th, ntrials=100,
 	@param seed: Seed for the random number generator for 
 	"""
 	
-	print '**** THEORETICAL ****'
-	print 'Probability that an input will be selected: {0:2.2f}%'.format(
-		p_a1(npsyns, ninputs) * 100)
+	print('**** THEORETICAL ****')
+	print('Probability that an input will be selected: {0:2.2f}%'.format(
+		p_a1(npsyns, ninputs) * 100))
 	p = p_c(ncols, npsyns, ninputs)
-	print 'Probability of all inputs being selected: {0:2.2f}%'.format((1 - p)
-		* 100)
-	print 'Expected inputs not seen:', int(p * ninputs )
-	print 'Expected number of columns connected to an input:', int(e_b(ncols,
-		npsyns, ninputs))
-	print 'Expected number of active synapses on a column: {0:2.2f}'.format(
-		e_c(npsyns, density))
-	print 'Expected number of active connected synapses on a column: ' \
-		'{0:2.2f}'.format(e_d(npsyns, density, syn_th))
-	print 'Expected number of columns with active inputs >= seg_th: {0:2.2f}' \
-		.format(e_e(npsyns, density, ncols, seg_th))
-	print 'Expected number of columns with active connected inputs >= ' \
+	print('Probability of all inputs being selected: {0:2.2f}%'.format((1 - p)
+		* 100))
+	print('Expected inputs not seen:', int(p * ninputs ))
+	print('Expected number of columns connected to an input:', int(e_b(ncols,
+		npsyns, ninputs)))
+	print('Expected number of active synapses on a column: {0:2.2f}'.format(
+		e_c(npsyns, density)))
+	print('Expected number of active connected synapses on a column: ' \
+		'{0:2.2f}'.format(e_d(npsyns, density, syn_th)))
+	print('Expected number of columns with active inputs >= seg_th: {0:2.2f}' \
+		.format(e_e(npsyns, density, ncols, seg_th)))
+	print('Expected number of columns with active connected inputs >= ' \
 		'seg_th: {0:2.2f}'.format(e_f(npsyns, density, ncols, seg_th,
-		syn_th))
+		syn_th)))
 	
 	# Prep the experimental
-	print '\n**** Experimental ****'
+	print('\n**** Experimental ****')
 	np.random.seed(seed)
 	kargs = {
 		'ninputs': ninputs,
@@ -279,28 +279,28 @@ def main(ncols, npsyns, ninputs, density, seg_th, syn_th, ntrials=100,
 	
 	# Simulate
 	y0 = y1 = y2 = y3 = y4 = y5 = 0.
-	for _ in xrange(ntrials):
+	for _ in range(ntrials):
 		sp = SPRegion(**kargs)
 		a = x[sp.syn_map].sum(1)
 		b = (x[sp.syn_map] * (sp.p >= syn_th)).sum(1)
 		y0 += ninputs - len(set(sp.syn_map.ravel()))
 		y1 += np.mean(np.array([np.sum(sp.syn_map == i) for i in
-			xrange(ninputs)]))
+			range(ninputs)]))
 		y2 += a.mean()
 		y3 += b.mean()
 		y4 += (a >= seg_th).sum()
 		y5 += (b >= seg_th).sum()
-	print 'Average number of missing inputs: {0:.2f}'.format(y0 / ntrials)
-	print 'Average number of columns connected to an input: {0:.2f}'.format(
-		y1 / ntrials)
-	print 'Average number of active inputs per column: {0:.2f}'.format(y2
-		/ ntrials)
-	print 'Average number of active connected inputs per column: {0:.2f}' \
-		.format(y3 / ntrials)
-	print 'Number of columns with active inputs >= seg_th {0:.2f}'.format(
-		y4 / ntrials)
-	print 'Number of columns with active connected inputs >= seg_th {0:.2f}' \
-		.format(y5 / ntrials)
+	print('Average number of missing inputs: {0:.2f}'.format(y0 / ntrials))
+	print('Average number of columns connected to an input: {0:.2f}'.format(
+		y1 / ntrials))
+	print('Average number of active inputs per column: {0:.2f}'.format(y2
+		/ ntrials))
+	print('Average number of active connected inputs per column: {0:.2f}' \
+		.format(y3 / ntrials))
+	print('Number of columns with active inputs >= seg_th {0:.2f}'.format(
+		y4 / ntrials))
+	print('Number of columns with active connected inputs >= seg_th {0:.2f}' \
+		.format(y5 / ntrials))
 
 if __name__ == '__main__':
 	ncols, npsyns, ninputs = 100, 75, 748

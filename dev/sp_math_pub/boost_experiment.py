@@ -22,7 +22,7 @@ G{packagetree mHTM}
 __docformat__ = 'epytext'
 
 # Native imports
-import cPickle, random, csv, os, time, json
+import pickle, random, csv, os, time, json
 
 # Third party imports
 import numpy as np
@@ -56,7 +56,7 @@ def make_data(p, nitems=100, width=100, density=0.9, seed=123456789):
 	
 	# Build the dataset
 	ds = np.zeros((nitems, width), dtype='bool')
-	for i in xrange(nitems):
+	for i in range(nitems):
 		indexes = set(np.random.randint(0, width, nactive))
 		while len(indexes) != nactive:
 			indexes.add(random.randint(0, width - 1))
@@ -64,7 +64,7 @@ def make_data(p, nitems=100, width=100, density=0.9, seed=123456789):
 	
 	# Write the file
 	with open(p, 'wb') as f:
-		cPickle.dump(ds, f, cPickle.HIGHEST_PROTOCOL)
+		pickle.dump(ds, f, pickle.HIGHEST_PROTOCOL)
 
 def load_data(p):
 	"""
@@ -74,7 +74,7 @@ def load_data(p):
 	"""
 		
 	with open(p, 'rb') as f:
-		ds = cPickle.load(f)
+		ds = pickle.load(f)
 	return ds
 
 def _phase3(self):
@@ -178,7 +178,7 @@ def main(ds, p, ncols=2048, duty_cycle=100, nepochs=10, global_inhibition=True,
 	
 	# Train the region
 	t = time.time()
-	for i in xrange(nepochs):
+	for i in range(nepochs):
 		for j, x in enumerate(ds):
 			sp.execute(x)
 			sp.iter += 1
@@ -207,7 +207,7 @@ def vary_density(bp, global_inhibition=True):
 	density_levels = np.arange(28, 100, 1)
 	
 	for density in density_levels:
-		print density
+		print(density)
 		p = os.path.join(bp, str(density))
 		p2 = os.path.join(p, 'data.pkl')
 		try:
@@ -219,7 +219,7 @@ def vary_density(bp, global_inhibition=True):
 		# Repeat for good results
 		Parallel(n_jobs=-1)(delayed(main)(load_data(p2),
 			os.path.join(p, str(i)), global_inhibition=global_inhibition,
-			seed=i) for i in xrange(10))
+			seed=i) for i in range(10))
 
 def vary_dutycycle(bp, ds, global_inhibition=True):
 	"""
@@ -241,7 +241,7 @@ def vary_dutycycle(bp, ds, global_inhibition=True):
 		pass
 
 	for dc in duty_cycles:
-		print '\n\n\n --------{0}-------- \n\n\n'.format(dc)
+		print('\n\n\n --------{0}-------- \n\n\n'.format(dc))
 		p = os.path.join(bp, str(dc))		
 		main(ds, p, duty_cycle=dc, nepochs=1,
 			global_inhibition=global_inhibition)

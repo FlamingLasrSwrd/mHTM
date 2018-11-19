@@ -155,7 +155,7 @@ if __name__ == '__main__':
 	missing = get_missing_results(bp)
 	if len(missing) > 0:
 		for item in missing:
-			print item
+			print(item)
 		
 	# Find the top job
-	print get_top_path(bp)
+	print(get_top_path(bp))

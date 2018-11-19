@@ -19,7 +19,7 @@ from distutils.sysconfig import get_python_lib
 import shutil, os
 
 # Remove any old versions
-print 'Removing old versions...'
+print('Removing old versions...')
 py_libs = get_python_lib()
 for path in os.listdir(py_libs):
 	if path[:4] == 'mHTM':
@@ -32,7 +32,7 @@ for path in os.listdir(py_libs):
 		else: shutil.rmtree(full_path, True)
 
 # Install the program
-print 'Installing...'
+print('Installing...')
 setup(
 	name='mHTM',
 	version='0.11.1',
@@ -47,5 +47,5 @@ setup(
 	)
 
 # Remove the unnecessary build folder
-print 'Cleaning up...'
+print('Cleaning up...')
 shutil.rmtree('build', True)

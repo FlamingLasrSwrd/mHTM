@@ -24,7 +24,7 @@ G{packagetree mHTM}
 __docformat__ = 'epytext'
 
 # Native imports
-import cPickle, os, json, pkgutil
+import pickle, os, json, pkgutil
 
 # Third party imports
 import numpy as np
@@ -173,11 +173,11 @@ def main_local(log_dir, ntrain=800, ntest=200, niter=5, nsplits=3,
 	
 	# Save the CV results
 	with open(os.path.join(log_dir, 'cv_results.pkl'), 'wb') as f:
-		cPickle.dump((parameter_names, parameter_values, results), f,
-			cPickle.HIGHEST_PROTOCOL)
+		pickle.dump((parameter_names, parameter_values, results), f,
+			pickle.HIGHEST_PROTOCOL)
 	with open(os.path.join(log_dir, 'cv_clf.pkl'), 'wb') as f:
-		cPickle.dump((clf.grid_scores_, clf.best_score_, clf.best_params_), f,
-			cPickle.HIGHEST_PROTOCOL)
+		pickle.dump((clf.grid_scores_, clf.best_score_, clf.best_params_), f,
+			pickle.HIGHEST_PROTOCOL)
 
 def main_slurm(log_dir, ntrain=800, ntest=200, niter=5, nsplits=3,
 	global_inhibition=True, partition_name='debug', seed=None):
@@ -209,7 +209,7 @@ def main_slurm(log_dir, ntrain=800, ntest=200, niter=5, nsplits=3,
 		global_inhibition, seed)
 	
 	# Create the runs
-	for i in xrange(1, niter + 1):
+	for i in range(1, niter + 1):
 		# Build the initial params
 		param = {k:v.rvs() for k, v in sorted(params.items())}
 		
@@ -225,10 +225,10 @@ def main_slurm(log_dir, ntrain=800, ntest=200, niter=5, nsplits=3,
 		
 		# Dump the CV data
 		with open(os.path.join(dir, 'cv.pkl'), 'wb') as f:
-			cPickle.dump(list(cv), f, cPickle.HIGHEST_PROTOCOL)
+			pickle.dump(list(cv), f, pickle.HIGHEST_PROTOCOL)
 		
 		# Build the full params
-		for k, v in kargs.items():
+		for k, v in list(kargs.items()):
 			if k != 'clf': # Add the classifier later
 				param[k] = v
 		

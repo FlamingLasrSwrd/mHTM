@@ -215,8 +215,8 @@ class SPMetrics(object):
 		
 		# Compute the average distance across all vector pairs
 		s = c = 0.
-		for i in xrange(0, m - 1):
-			for j in xrange(i + 1, m):
+		for i in range(0, m - 1):
+			for j in range(i + 1, m):
 				s += np.dot(x[i], x[j])
 				c += 1
 		

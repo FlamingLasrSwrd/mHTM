@@ -1,0 +1,22 @@
+{
+    "clf": "LinearSVC(C=1.0, class_weight=None, dual=True, fit_intercept=True, intercept_scaling=1, loss='squared_hinge', max_iter=1000, multi_class='ovr', penalty='l2', random_state=123456789, tol=0.0001, verbose=0)",
+    "disable_boost": true,
+    "duty_cycle": 1000,
+    "global_inhibition": true,
+    "log_dir": "/home/user/mHTM/simple_mnist/1-1",
+    "max_boost": 10,
+    "nactive": 30,
+    "ncolumns": 784,
+    "nepochs": 10,
+    "ninputs": 784,
+    "nsynapses": 392,
+    "pct_active": null,
+    "pdec": 0.002,
+    "pinc": 0.001,
+    "pwindow": 0.01,
+    "random_permanence": true,
+    "seed": 123456789,
+    "seg_th": 10,
+    "syn_th": 0.5,
+    "trim": false
+}

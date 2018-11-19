@@ -22,8 +22,8 @@ G{packagetree mHTM}
 __docformat__ = 'epytext'
 
 # Native imports
-import os, time, cPickle, csv, json
-from itertools import izip
+import os, time, pickle, csv, json
+
 
 # Third party imports
 import numpy as np
@@ -61,7 +61,7 @@ class Region(object):
 		"""
 		
 		with open(path, 'rb') as f:
-			htm = cPickle.load(f)
+			htm = pickle.load(f)
 		return htm
 	
 	@staticmethod
@@ -75,7 +75,7 @@ class Region(object):
 		"""
 		
 		with open(path, 'rb') as f:
-			data = cPickle.load(f)
+			data = pickle.load(f)
 		return data
 	
 	def save(self, name):
@@ -88,7 +88,7 @@ class Region(object):
 		"""
 		
 		with open(os.path.join(self.log_dir, name + '.pkl'), 'wb') as f:
-			cPickle.dump(self, f, cPickle.HIGHEST_PROTOCOL)
+			pickle.dump(self, f, pickle.HIGHEST_PROTOCOL)
 	
 	def _save_data(self, name, data):
 		"""
@@ -102,7 +102,7 @@ class Region(object):
 		"""
 		
 		with open(os.path.join(self.log_dir, name + '.pkl'), 'wb') as f:
-			cPickle.dump(data, f, cPickle.HIGHEST_PROTOCOL)
+			pickle.dump(data, f, pickle.HIGHEST_PROTOCOL)
 	
 	def _log_stats(self, name, value):
 		"""
@@ -377,7 +377,7 @@ class SPRegion(Region):
 		#   - Note: np.random.permutation is faster than np.random.choice
 		self.syn_map = np.zeros((self.ncolumns, self.nsynapses), dtype='i')
 		s = np.arange(self.ninputs)
-		for i in xrange(self.ncolumns):
+		for i in range(self.ncolumns):
 			self.syn_map[i] = self.prng.permutation(s)[:self.nsynapses]
 		
 		# Compute the distances between all synapses and their inputs
@@ -493,7 +493,7 @@ class SPRegion(Region):
 		"""
 		
 		# Update the parameters
-		for parameter, value in parameters.items():
+		for parameter, value in list(parameters.items()):
 			setattr(self, parameter, value)
 		
 		# Reinitialize
@@ -536,7 +536,7 @@ class SPRegion(Region):
 		NOTE - This should be called after updating the inhibition radius.
 		"""
 		
-		for i in xrange(self.ncolumns):
+		for i in range(self.ncolumns):
 			self.neighbors[i][np.arange(max(0, i - self.inhibition_radius),
 				min(i + self.inhibition_radius + 1, self.ncolumns))] = 1
 	
@@ -563,7 +563,7 @@ class SPRegion(Region):
 		@param min_dc: The minimum duty cycles.
 		"""
 		
-		for i, (mdc, adc) in enumerate(izip(min_dc, self.active_dc)):
+		for i, (mdc, adc) in enumerate(zip(min_dc, self.active_dc)):
 			if mdc == 0:
 				self.boost[i] = self.max_boost
 			elif adc > mdc:
@@ -620,7 +620,7 @@ class SPRegion(Region):
 			# The neighborhood is bounded by the inhibition radius, therefore
 			# each column's neighborhood must be considered
 			
-			for i in xrange(self.ncolumns):
+			for i in range(self.ncolumns):
 				# Get the neighbors
 				ix = np.where(self.neighbors[i])[0]
 				
@@ -750,7 +750,7 @@ class SPRegion(Region):
 		
 		# Train for the specified number of epochs
 		self.learn = True
-		for _ in xrange(self.nepochs):
+		for _ in range(self.nepochs):
 			self.execute(x, False)
 		
 		# Time for learning, only
@@ -882,7 +882,7 @@ class SPRegion(Region):
 		
 		# Get the probabilities
 		prob = np.zeros(self.ninputs)
-		for i in xrange(self.ninputs):
+		for i in range(self.ninputs):
 			# Find all of the potential synapses for this input
 			valid = self.syn_map == i
 			
@@ -970,7 +970,7 @@ class SPRegion(Region):
 			x = x.reshape(1, x.shape[0])
 		
 		# Get the input mapping
-		imap = [np.where(self.syn_map == i) for i in xrange(self.ninputs)]
+		imap = [np.where(self.syn_map == i) for i in range(self.ninputs)]
 		
 		# Get the reconstruction
 		x2 = np.zeros((x.shape[0], self.ninputs))
@@ -979,7 +979,7 @@ class SPRegion(Region):
 			y = self.p * xi.reshape(self.ncolumns, 1)
 			
 			# Remap permanences to input domain
-			for j in xrange(self.ninputs):
+			for j in range(self.ninputs):
 				# Get the max probability across the current input space
 				try:
 					x2[i][j] = bn.nanmax(y[imap[j]])

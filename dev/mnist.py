@@ -22,8 +22,8 @@ G{packagetree mHTM}
 __docformat__ = 'epytext'
 
 # Native imports
-import cPickle, time, os
-from itertools import izip
+import pickle, time, os
+
 
 # Third party imports
 import numpy as np
@@ -164,19 +164,19 @@ def fit_grid():
 	# Train the top SP
 	nepochs = 10
 	t = time.time()
-	for i in xrange(nepochs):
-		print i
+	for i in range(nepochs):
+		print(i)
 		for j, x in enumerate(tr_x):
-			print '\t{0}'.format(j)
+			print('\t{0}'.format(j))
 			nx = extract_patches_2d(x.reshape(28, 28), (3, 3)).reshape(
 				nwindows, 9)
 			output = np.array(np.zeros(100 * nwindows), dtype='bool')
-			for k, (xi, sp) in enumerate(izip(nx, sps)):
+			for k, (xi, sp) in enumerate(zip(nx, sps)):
 				sp.step(xi)
 				output[k*100:(k*100)+100] = sp.y[:, 0]
 			sp2.step(output)
 	t2 = time.time() - t
-	print t2
+	print(t2)
 	
 	# Save the top SP
 	sp2.learn = False
@@ -202,7 +202,7 @@ def score_grid():
 	# with open(os.path.join(p, 'data.pkl'), 'wb') as f:
 		# cPickle.dump((w, ms), f, cPickle.HIGHEST_PROTOCOL)
 	with open(os.path.join(p, 'data.pkl'), 'rb') as f:
-		w, ms = cPickle.load(f)
+		w, ms = pickle.load(f)
 	
 	# Get training data
 	tr_x2 = np.zeros((tr_x.shape[0], nfeat))
@@ -210,13 +210,13 @@ def score_grid():
 		nx = extract_patches_2d(x.reshape(28, 28), (3, 3)).reshape(
 			nwindows, 9)
 		x = np.array(np.zeros(nfeat), dtype='bool')
-		for j, (xi, sp) in enumerate(izip(nx, sps)):
+		for j, (xi, sp) in enumerate(zip(nx, sps)):
 			sp.step(xi)
 			x[j*100:(j*100)+100] = sp.y[:, 0]
 		
 		y = sp2.p * x[sp2.syn_map]
 		w = np.zeros((nfeat, ms))
-		for j in xrange(nfeat):
+		for j in range(nfeat):
 			a = y[sp2.syn_map == j]
 			w[j][:a.shape[0]] = a
 		tr_x2[i] = np.mean(w, 1)
@@ -227,13 +227,13 @@ def score_grid():
 		nx = extract_patches_2d(x.reshape(28, 28), (3, 3)).reshape(
 			nwindows, 9)
 		x = np.array(np.zeros(nfeat), dtype='bool')
-		for j, (xi, sp) in enumerate(izip(nx, sps)):
+		for j, (xi, sp) in enumerate(zip(nx, sps)):
 			sp.step(xi)
 			x[j*100:(j*100)+100] = sp.y[:, 0]
 		
 		y = sp2.p * x[sp2.syn_map]
 		w = np.zeros((nfeat, ms))
-		for j in xrange(nfeat):
+		for j in range(nfeat):
 			a = y[sp2.syn_map == j]
 			w[j][:a.shape[0]] = a
 		te_x2[i] = np.mean(w, 1)
@@ -241,7 +241,7 @@ def score_grid():
 	# Classify
 	clf = LinearSVC(random_state=123456789)
 	clf.fit(tr_x2, tr_y)
-	print 'SVM Accuracy : {0:2.2f} %'.format(clf.score(te_x2, te_y) * 100)
+	print('SVM Accuracy : {0:2.2f} %'.format(clf.score(te_x2, te_y) * 100))
 
 def execute(sp, tr, te):
 	# Trains
@@ -288,34 +288,34 @@ def first_level(log_dir, ntrain=800, ntest=200, nsplits=1, seed=123456789):
 	x, y = np.vstack((tr_x, te_x)), np.hstack((tr_y, te_y))
 	
 	# Split the data for CV
-	tr, te = MNISTCV(tr_y, te_y, ntrain, ntest, nsplits, seed).gen.next()
+	tr, te = next(MNISTCV(tr_y, te_y, ntrain, ntest, nsplits, seed).gen)
 	tr, te = tr[:ntrain], te[:ntest]
 	
 	# Store the labels to disk
 	with open(os.path.join(log_dir, 'labels.pkl'), 'wb') as f:
-		cPickle.dump((y[tr], y[te]), f, cPickle.HIGHEST_PROTOCOL)
+		pickle.dump((y[tr], y[te]), f, pickle.HIGHEST_PROTOCOL)
 	del tr_y; del te_y; del y;
 	
 	# Build the training data
 	train_data = np.zeros((nwindows, ntrain, total_win_size), dtype='bool')
-	for i in xrange(ntrain):
+	for i in range(ntrain):
 		xi = x[tr[i]]
 		for j, window in enumerate(get_windows(xi.reshape(28, 28), win_size)):
 			train_data[j, i] = window
 	
 	# Build the testing data
 	test_data = np.zeros((nwindows, ntest, total_win_size), dtype='bool')
-	for i in xrange(ntest):
+	for i in range(ntest):
 		xi = x[te[i]]
 		for j, window in enumerate(get_windows(xi.reshape(28, 28), win_size)):
 			test_data[j, i] = window
 	del tr_x; del te_x; del x
 	
 	# Make the SPs
-	sps = [SPRegion(**kargs) for _ in xrange(nwindows)]
+	sps = [SPRegion(**kargs) for _ in range(nwindows)]
 	
 	# Execute the SPs in parallel
-	Parallel(n_jobs=-1)(delayed(execute)(sp, tr, te) for sp, tr, te in izip(
+	Parallel(n_jobs=-1)(delayed(execute)(sp, tr, te) for sp, tr, te in zip(
 		sps, train_data, test_data))
 
 def second_level(log_dir, seed=123456789):
@@ -375,7 +375,7 @@ def second_level(log_dir, seed=123456789):
 	sp.fit(tr_x, tr_y)
 	
 	# Score the SP
-	print sp.score(te_x, te_y)
+	print(sp.score(te_x, te_y))
 
 def parallel_grid(log_dir, ntrain=800, ntest=200, nsplits=1, seed=123456789):
 	# Make a new directory for this experiment

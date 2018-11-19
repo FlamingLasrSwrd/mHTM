@@ -22,7 +22,7 @@ G{packagetree mHTM}
 __docformat__ = 'epytext'
 
 # Native imports
-import os, json, cPickle, sys
+import os, json, pickle, sys
 
 # Third party imports
 import numpy as np
@@ -162,9 +162,9 @@ def run_experiment(experiments, base_dir, nsamples=500, nbits=100,
 				
 				# Dump the dataset and the metrics
 				with open(os.path.join(dir, 'dataset.pkl'), 'wb') as f:
-					cPickle.dump(data, f, cPickle.HIGHEST_PROTOCOL)
-					cPickle.dump((uniqueness_data, overlap_data,
-						correlation_data), f, cPickle.HIGHEST_PROTOCOL)
+					pickle.dump(data, f, pickle.HIGHEST_PROTOCOL)
+					pickle.dump((uniqueness_data, overlap_data,
+						correlation_data), f, pickle.HIGHEST_PROTOCOL)
 				
 				# Create the runner
 				this_path = os.path.join(this_dir, 'parameter_exploration.py')
@@ -357,8 +357,8 @@ def run_single_experiment(base_dir, ntrials=10, seed=123456789):
 	
 	# Get the data and base metric data
 	with open(os.path.join(base_dir, 'dataset.pkl'), 'rb') as f:
-		data = cPickle.load(f)
-		uniqueness_data, overlap_data, correlation_data = cPickle.load(f)
+		data = pickle.load(f)
+		uniqueness_data, overlap_data, correlation_data = pickle.load(f)
 	
 	# Metrics
 	metrics = SPMetrics()
@@ -456,16 +456,16 @@ def local_experiment():
 	sp._log_stats('SP Overlap', sp_overlap)
 	sp._log_stats('SP Correlation', sp_correlation)
 
-	print 'Uniqueness:\t{0:2.4f}\t{1:2.4f}'.format(uniqueness_data,
-		sp_uniqueness)
-	print 'Overlap:\t{0:2.4f}\t{1:2.4f}'.format(overlap_data, sp_overlap)
-	print 'Correlation:\t{0:2.4f}\t{1:2.4f}'.format(correlation_data,
-		sp_correlation)
+	print('Uniqueness:\t{0:2.4f}\t{1:2.4f}'.format(uniqueness_data,
+		sp_uniqueness))
+	print('Overlap:\t{0:2.4f}\t{1:2.4f}'.format(overlap_data, sp_overlap))
+	print('Correlation:\t{0:2.4f}\t{1:2.4f}'.format(correlation_data,
+		sp_correlation))
 	
 	# Get a new random input
 	ds2 = SPDataset(nsamples, nbits, pct_active, pct_noise, 123)
-	print '\n% Overlapping old class to new: \t{0:2.4f}%'.format(
-		(float(np.dot(ds.input, ds2.input)) / nbits) * 100)
+	print('\n% Overlapping old class to new: \t{0:2.4f}%'.format(
+		(float(np.dot(ds.input, ds2.input)) / nbits) * 100))
 	
 	# Test the SP on the new dataset
 	sp_output2 = sp.predict(ds2.data)
@@ -487,7 +487,7 @@ def local_experiment():
 	sp_uniqueness2 /= len(sp_output2)
 	sp_overlap2 /= len(sp_output2)
 	sp_correlation2 /= len(sp_output2)
-	print sp_uniqueness2, sp_overlap2, sp_correlation2
+	print(sp_uniqueness2, sp_overlap2, sp_correlation2)
 
 if __name__ == '__main__':
 	# Determine the mode of operation
