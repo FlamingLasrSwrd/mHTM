@@ -1,12 +1,12 @@
 # __init__.py
-#	
+#
 # Author         : James Mnatzaganian
 # Contact        : http://techtorials.me
 # Organization   : NanoComputing Research Lab - Rochester Institute of
 # Technology
 # Website        : https://www.rit.edu/kgcoe/nanolab/
 # Date Created   : 12/02/15
-#	
+#
 # Description    : Defines the project (main package).
 # Python Version : 2.7.X
 #
@@ -29,18 +29,18 @@ Prerequisites
 	Required
 	--------
 	These prerequisites are needed for working with the base installation:
-	
+
 	- U{Python 2.7.X<https://www.python.org/downloads/release/python-279/>}
 	- U{Numpy<http://www.numpy.org/>}
 	- U{matplotlib<http://matplotlib.org/>}
 	- U{Scipy<http://www.scipy.org/>}
 	- U{Scikit-Learn<http://scikit-learn.org/stable/>}
 	- U{Bottleneck<http://berkeleyanalytics.com/bottleneck>}
-	
+
 	Optional
 	--------
 	These prerequisites are needed by some of the experimental code or for other development purposes:
-	
+
 	- U{Joblib<https://pythonhosted.org/joblib/index.html>}
 	- U{Epydoc<http://sourceforge.net/projects/epydoc/files>}
 	- U{graphviz<http://www.graphviz.org/Download..php>}
@@ -49,31 +49,31 @@ Installation
 ============
 	1. Install all prerequisites
 		1. If you have U{pip<https://pip.pypa.io/en/latest/installing.html>}
-		
+
 			X{pip install numpy matplotlib scipy scikit-learn bottleneck}
-		
+
 		2. If you are on Windows
-		
+
 			You may download the the (unofficial) precompiled versions available from U{UCI<http://www.lfd.uci.edu/~gohlke/pythonlibs>}. Simply download the appropriate Python wheel and install it using pip, i.e. X{pip install my_file.whl}, where X{my_file} is the name of your X{whl} file.
 	2. Download this repo and execute X{python setup.py install}.
 
 Usage
 =====
 	The API is fully documented and available in the "docs" folder. Simply open "index.html" in your favorite web browser.
-	
+
 	As a starting point, examples have been prepared for working with MNIST. The dataset is additionally, included. Refer to "mnist_simple.py" in "src/examples" for a basic introduction into the API. In that same folder, refer to "mnist_parallel" for examples for using parallelizations locally or an cluster.
-	
+
 	The "dev" folder contains the latest code regarding new experiments. This content is subject to change at any point and is not guaranteed to work; however, it can also be used as a basis for exploring this library.
 
 Development
 ===========
-	For building the docs, U{Epydoc<http://epydoc.sourceforge.net/>} is used. To generate new docs, 
-	
+	For building the docs, U{Epydoc<http://epydoc.sourceforge.net/>} is used. To generate new docs,
+
 Citing this Work
 ================
 	While this code is completely free of charge, it is highly appreciated that all
 	uses of this code are cited (both in publications as well as within any modified code). Once the IEEE TNNLS paper is approved please cite that work. For now, please cite the preprint:
-	
+
 	J. Mnatzaganian, E. Fokoue, and D. Kudithipudi, "A Mathematical Formalization of Hierarchical Temporal Memory Cortical Learning Algorithm's Spatial Pooler," arXiv preprint arXiv:1601.06116, 2016.
 
 Bug Reports and Support
