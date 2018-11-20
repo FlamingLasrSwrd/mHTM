@@ -1,9 +1,0 @@
-Total Fitting Time [s],36.15630912780762
-Learning Training Time [s],34.99251103401184
-Prediction Training Time [s],1.16379714012146
-Predicting Testing Time: column [s],0.3384110927581787
-Accuracy: column,0.11442786069651742
-Predicting Testing Time: prob [s],0.18130016326904297
-Accuracy: prob,0.7611940298507462
-Predicting Testing Time: reduction [s],0.007990121841430664
-Accuracy: reduction,0.7761194029850746

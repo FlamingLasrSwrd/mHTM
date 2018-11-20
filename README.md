@@ -42,6 +42,7 @@ These prerequisites are needed for working with the base installation:
 * [Scipy](http://www.scipy.org/)
 * [Scikit-Learn](http://scikit-learn.org/stable/)
 * [Bottleneck](http://berkeleyanalytics.com/bottleneck)
+* [Slurm Workload Manager](https://slurm.schedmd.com/overview.html) - (for parallelization)
 
 ### Optional
 These prerequisites are needed by some of the experimental code or for other development purposes:
@@ -54,9 +55,9 @@ These prerequisites are needed by some of the experimental code or for other dev
 ### Without virutalenv
 1. Install all prerequisites
     1. If you have [pip](https://pip.pypa.io/en/latest/installing.html)
-    
+
             pip install -r requirements.txt
-	
+
     2. If you are on Windows  
         You may download the the (unofficial) precompiled versions available
         from [UCI](http://www.lfd.uci.edu/~gohlke/pythonlibs). Simply download
