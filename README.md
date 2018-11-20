@@ -36,7 +36,7 @@ SLURM, and as such must be a valid Linux distribution.
 ### Required
 These prerequisites are needed for working with the base installation:
 
-* [Python 2.7.X](https://www.python.org/downloads/release/python-279/) (all other versions are untested)
+* [Python 3.6.X](https://www.python.org/downloads/release/python-367/)
 * [Numpy](http://www.numpy.org/)
 * [matplotlib](http://matplotlib.org/)
 * [Scipy](http://www.scipy.org/)
