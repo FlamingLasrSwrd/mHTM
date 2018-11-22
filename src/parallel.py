@@ -135,11 +135,7 @@ def execute_runner(runner_path, queue_limit=7000):
     # Execute file
     while True:
         p = subprocess.Popen(('sbatch', runner_path), stdout=subprocess.PIPE,
-<<<<<<< HEAD
                              stderr=subprocess.PIPE)
-=======
-            stderr=subprocess.PIPE)
->>>>>>> 101a15ef5dfadd7397a99a7b5519cd5d8b86b8b0
         error = p.stderr.read()
         if len(error) == 0:
             break
