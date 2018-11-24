@@ -231,7 +231,7 @@ def main(ncols, npsyns, ninputs, density, seg_th, syn_th, ntrials=100,
     """
     print('**** THEORETICAL ****')
     print(f'Probability that an input will be selected: \
-            {p_a1(npsyns, ninputs)*100):2.2f}')
+            {p_a1(npsyns, ninputs)*100:2.2f}')
     p = p_c(ncols, npsyns, ninputs)
     print(f'Probability of all inputs being selected: \
             {(1-p)*100:2.2f}')
@@ -242,11 +242,11 @@ def main(ncols, npsyns, ninputs, density, seg_th, syn_th, ntrials=100,
     print(f'Expected number of active synapses on a column: \
             {e_c(npsyns, density):2.2f}')
     print(f'Expected number of active connected synapses on a column: \
-            {e_d(npsyns, density, syn_th)):2.2f}')
+            {e_d(npsyns, density, syn_th):2.2f}')
     print(f'Expected number of columns with active inputs >= seg_th: \
-            {e_e(npsyns, density, ncols, seg_th)):2.2f}')
+            {e_e(npsyns, density, ncols, seg_th):2.2f}')
     print(f'Expected number of columns with active connected inputs >= seg_th: \
-            {e_f(npsyns, density, ncols, seg_th, syn_th)):2.2f}')
+            {e_f(npsyns, density, ncols, seg_th, syn_th):2.2f}')
 
     # Prep the experimental
     print('\n**** Experimental ****')
