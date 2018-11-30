@@ -189,8 +189,7 @@ class ParamGenerator(object):
         """Create a generator for building the data."""
         # Build a logging format suitable for sorting
         log_dir = self.param_distributions['log_dir']
-        log_fmt = f'{{0:0{len(str(self.niter)}d}}-\
-                    {{1:0{len(str(self.nsplits))}d}}'
+        log_fmt = '{{0:0%sd}}-{{1:0%s}}' % (self.niter, self.nsplits)
 
         # Create the parameters for each instance
         for i in range(1, self.niter + 1):
